@@ -14,14 +14,62 @@ namespace ChatApp
             Connection = new SqlConnection(ConnectionString);
         }
 
+        private int ExecuteNonQuery(SqlCommand sqlCommand)
+        {
+            Connection.Open();
+            int x = -1;
+            try
+            {
+                x = sqlCommand.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return x;
+        }
+
+        private void ExecuteScalar(SqlCommand sqlCommand)
+        {
+            Connection.Open();
+            try
+            {
+                sqlCommand.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
         public void CreateAccount(string username, string password)
         {
             string salt = MakeSalt();
             string hash = CreateMD5Hash(password + salt);
+            string query = "usp_CreateAccount";
+
+            SqlCommand command = new SqlCommand(query, Connection);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Username", username);
+            command.Parameters.AddWithValue("@PasswordHash", hash);
+            command.Parameters.AddWithValue("@Salt", salt);
 
             Connection.Open();
-
+            ExecuteNonQuery(command);
             Connection.Close();
+        }
+
+        public bool Login(string username, string password)
+        {
+
         }
 
         public static string CreateMD5Hash(string input)
