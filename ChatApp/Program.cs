@@ -31,6 +31,7 @@ namespace ChatApp
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }
