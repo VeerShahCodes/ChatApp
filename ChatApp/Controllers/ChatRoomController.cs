@@ -16,7 +16,7 @@ namespace ChatApp.Controllers
         {
             if(Sql.CreateAccount(username, password))
             {
-                return Ok(new User(username, (int)Sql.GetID(username)));
+                return Ok();
             }
             return BadRequest("bruh");
         }
@@ -32,13 +32,6 @@ namespace ChatApp.Controllers
             }
             return BadRequest("bruh");
         }
-        //public ActionResult<User> Temp(int num)
-        //{
-        //    if(num % 2 == 0)
-        //        return BadRequest(new User() { Username = null, ID = -1});
-
-        //    return Ok(new User() { Username = "alex", ID = 1});
-        //}
 
     }
 }
