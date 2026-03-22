@@ -10,4 +10,6 @@ namespace ChatApp
 
         public string? Summary { get; set; }
     }
+
+
 }

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Data.SqlClient;
 
@@ -34,23 +36,41 @@ namespace ChatApp
             return x;
         }
 
-        private void ExecuteScalar(SqlCommand sqlCommand)
+        private object ExecuteScalar(SqlCommand sqlCommand)
         {
+            object? value;
             Connection.Open();
             try
             {
-                sqlCommand.ExecuteScalar();
+                value = sqlCommand.ExecuteScalar();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                value = null;
             }
             finally
             {
                 Connection.Close();
+                
             }
+            return value;
         }
-        public void CreateAccount(string username, string password)
+
+        private DataTable DataReturn(SqlCommand command)
+        {
+            DataTable data = new DataTable();
+
+            Connection.Open();
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(data);
+
+            Connection.Close();
+
+            return data;
+        }
+        public bool CreateAccount(string username, string password)
         {
             string salt = MakeSalt();
             string hash = CreateMD5Hash(password + salt);
@@ -62,14 +82,38 @@ namespace ChatApp
             command.Parameters.AddWithValue("@PasswordHash", hash);
             command.Parameters.AddWithValue("@Salt", salt);
 
-            Connection.Open();
-            ExecuteNonQuery(command);
-            Connection.Close();
+            int x = ExecuteNonQuery(command);
+            if (x != -1) return true;
+            return false;
         }
-
-        public bool Login(string username, string password)
+        public object GetID(string username)
         {
+            SqlCommand command = new SqlCommand("usp_GetID", Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Username", username);
 
+            return ExecuteScalar(command);
+        }
+        public DataTable Login(string username, string password)
+        {
+            //get salt
+            SqlCommand getSalt = new SqlCommand("usp_GetSalt", Connection);
+            getSalt.CommandType = System.Data.CommandType.StoredProcedure;
+            getSalt.Parameters.AddWithValue("@Username", username);
+
+            string salt = (string)ExecuteScalar(getSalt);
+
+            //create hashed password
+            string hashedPassword = CreateMD5Hash(password + salt);
+
+            SqlCommand command = new SqlCommand("usp_Login", Connection);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Username", username);
+            command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+
+            DataTable data = DataReturn(command);
+
+            return data;
         }
 
         public static string CreateMD5Hash(string input)
