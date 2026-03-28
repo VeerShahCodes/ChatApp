@@ -177,15 +177,31 @@ namespace ChatApp
             return ExecuteScalar(command, out id, out Exception error);
         }
 
-        private bool JoinRoom(string roomName, string roomPassword, out object roomID)
+        public bool JoinRoom(string roomName, string roomPassword, out object roomID)
         {
-            if (ExecuteScalar(new SqlCommand("usp_JoinRoom", Connection), out roomID, out Exception error))
+            SqlCommand command = new SqlCommand("usp_JoinRoom", Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@RoomName", roomName);
+            command.Parameters.AddWithValue("@RoomPassword", roomPassword);
+            if (ExecuteScalar(command, out roomID, out Exception error))
             {
                 return true;
             }
             return false;
         }
 
-        public bool 
+        public bool CreateAccountRoom(int accountId, string roomName, string roomPassword)
+        {
+            string cmd = "usp_CreateAccountRoom";
+            SqlCommand command = new SqlCommand(cmd, Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@RoomName", roomName);
+            command.Parameters.AddWithValue("@RoomID", roomId);
+
+            int x = ExecuteNonQuery(command);
+
+            if(x==-1) return false;
+            return true;
+        }
     }
 }
