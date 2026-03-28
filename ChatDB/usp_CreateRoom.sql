@@ -3,6 +3,6 @@
 @RoomPassword VARCHAR(50)
 AS
 BEGIN
-INSERT INTO ROOMS (RoomName, RoomPassword)
+INSERT INTO Rooms (RoomName, RoomPassword)
 VALUES (@RoomName, @RoomPassword)
 END

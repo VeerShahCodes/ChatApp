@@ -20,11 +20,11 @@ namespace ChatApp.Controllers
             {
                 return Ok(new User(username, (int)id));
             }
-            return BadRequest("bruh");
+            return BadRequest();
         }
 
         [HttpGet("Login")]
-        public IActionResult Login(string username, string password)
+        public ActionResult<User> Login(string username, string password)
         {
             object id;
             Exception err;
@@ -34,7 +34,19 @@ namespace ChatApp.Controllers
             }
             
 
-            return BadRequest("bruh");
+            return BadRequest();
+        }
+
+        [HttpPost("CreateRoom")]
+        public ActionResult<Room> CreateRoom(string roomName, string roomPassword)
+        {
+            object id;
+            
+            if(Sql.CreateRoom(roomName, roomPassword, out id))
+            {
+                return Ok(new Room(roomName, (int)id));
+            }
+            return BadRequest();
         }
 
     }

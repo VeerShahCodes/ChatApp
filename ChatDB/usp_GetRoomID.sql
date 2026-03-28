@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE usp_GetRoomID
+@RoomName VARCHAR(50)
+AS
+BEGIN
+SELECT RoomID FROM Rooms WHERE RoomName=@RoomName
+END

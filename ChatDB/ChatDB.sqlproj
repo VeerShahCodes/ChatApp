@@ -69,5 +69,7 @@
     <Build Include="usp_CreateRoom.sql" />
     <Build Include="usp_JoinRoom.sql" />
     <Build Include="usp_GetID.sql" />
+    <Build Include="usp_CreateAccountRoom.sql" />
+    <Build Include="usp_GetRoomID.sql" />
   </ItemGroup>
 </Project>
