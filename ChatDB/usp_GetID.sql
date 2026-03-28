@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE usp_GetID
+@Username VARCHAR(50)
+AS
+BEGIN
+SELECT AccountID From ACCOUNTS WHERE Username=@Username
+END

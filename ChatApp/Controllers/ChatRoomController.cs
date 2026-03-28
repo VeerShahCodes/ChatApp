@@ -14,9 +14,11 @@ namespace ChatApp.Controllers
 
         public ActionResult<User> CreateAccount(string username, string password)
         {
-            if(Sql.CreateAccount(username, password))
+            object id;
+
+            if (Sql.CreateAccount(username, password, out id))
             {
-                return Ok();
+                return Ok(new User(username, (int)id));
             }
             return BadRequest("bruh");
         }
@@ -28,9 +30,9 @@ namespace ChatApp.Controllers
             Exception err;
             if(Sql.Login(username, password, out id, out err))
             {
-                return Ok(id);
+                return Ok(new User(username, (int)id));
             }
-            ;
+            
 
             return BadRequest("bruh");
         }

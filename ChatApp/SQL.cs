@@ -70,7 +70,7 @@ namespace ChatApp
 
             return data;
         }
-        public bool CreateAccount(string username, string password)
+        public bool CreateAccount(string username, string password, out object id)
         {
             string salt = MakeSalt();
             string hash = CreateMD5Hash(password + salt);
@@ -83,6 +83,9 @@ namespace ChatApp
             command.Parameters.AddWithValue("@Salt", salt);
 
             int x = ExecuteNonQuery(command);
+
+            GetID(username, out id);
+
             if (x != -1) return true;
             return false;
         }
@@ -143,6 +146,12 @@ namespace ChatApp
                 sb.Append((char)random.Next(33, 126));
             }
             return sb.ToString();
+        }
+
+        public bool JoinRoom(string roomName,  string roomPassword)
+        {
+
+            return true;
         }
     }
 }
