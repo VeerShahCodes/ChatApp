@@ -8,7 +8,7 @@ namespace ChatApp.Controllers
     [Route("[controller]")]
     public class ChatRoomController : ControllerBase
     {
-        SQL Sql = new SQL("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ChatApp;Integrated Security=True;Encrypt=True");
+        SQL Sql = new SQL("Data Source=(localdb)\\ProjectModels;Initial Catalog=ChatDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
         [HttpPost("CreateAccount")]      
 
 
@@ -24,12 +24,14 @@ namespace ChatApp.Controllers
         [HttpGet("Login")]
         public IActionResult Login(string username, string password)
         {
-            DataTable data = Sql.Login(username, password);
-            if (data.Rows.Count > 0)
+            object id;
+            Exception err;
+            if(Sql.Login(username, password, out id, out err))
             {
-                return Ok(new User(username, (int)data.Rows[0][0]));
-                
+                return Ok(id);
             }
+            ;
+
             return BadRequest("bruh");
         }
 

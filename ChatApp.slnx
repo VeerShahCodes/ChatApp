@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="ChatApp/ChatApp.csproj" />
+  <Project Path="//GMRDC1/Folder Redirection/Veer.Shah/Documents/Visual Studio 2022/Projects/SQLAPIs/ChatApp/ChatApp/ChatApp.csproj" />
+  <Project Path="//GMRDC1/Folder Redirection/Veer.Shah/Documents/Visual Studio 2022/Projects/SQLAPIs/ChatApp/ChatDB/ChatDB.sqlproj" Id="9d869897-e90b-4524-bfe3-400aa49c9241">
+    <Build />
+    <Deploy />
+  </Project>
 </Solution>

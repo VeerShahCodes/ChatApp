@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Accounts]
+(
+	AccountID INT PRIMARY KEY IDENTITY (1,1),
+	Username VARCHAR(50) UNIQUE NOT NULL,
+	PasswordHash VARCHAR(200) NOT NULL,
+	Salt VARCHAR(50) NOT NULL
+)
+

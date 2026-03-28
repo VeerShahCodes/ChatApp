@@ -35,26 +35,26 @@ namespace ChatApp
             }
             return x;
         }
-
-        private object ExecuteScalar(SqlCommand sqlCommand)
+        
+        private bool ExecuteScalar(SqlCommand sqlCommand, out object value, out Exception error)
         {
-            object? value;
             Connection.Open();
             try
             {
                 value = sqlCommand.ExecuteScalar();
+                error = null;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                value = null;
+                value = -1;
+                error = ex;
+                return false;
             }
             finally
             {
                 Connection.Close();
-                
             }
-            return value;
+            return true;
         }
 
         private DataTable DataReturn(SqlCommand command)
@@ -86,22 +86,23 @@ namespace ChatApp
             if (x != -1) return true;
             return false;
         }
-        public object GetID(string username)
+        public bool GetID(string username, out object UserID)
         {
             SqlCommand command = new SqlCommand("usp_GetID", Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@Username", username);
 
-            return ExecuteScalar(command);
+            return ExecuteScalar(command, out UserID, out Exception error);
+            
         }
-        public DataTable Login(string username, string password)
+        public bool Login(string username, string password, out object UserID, out Exception login_error)
         {
             //get salt
             SqlCommand getSalt = new SqlCommand("usp_GetSalt", Connection);
             getSalt.CommandType = System.Data.CommandType.StoredProcedure;
             getSalt.Parameters.AddWithValue("@Username", username);
-
-            string salt = (string)ExecuteScalar(getSalt);
+            object salt;
+            bool success = ExecuteScalar(getSalt, out salt, out Exception error);
 
             //create hashed password
             string hashedPassword = CreateMD5Hash(password + salt);
@@ -111,9 +112,8 @@ namespace ChatApp
             command.Parameters.AddWithValue("@Username", username);
             command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
 
-            DataTable data = DataReturn(command);
+            return ExecuteScalar(command, out UserID, out login_error);
 
-            return data;
         }
 
         public static string CreateMD5Hash(string input)
