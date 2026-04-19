@@ -43,8 +43,10 @@ namespace ChatApp
             {
                 value = sqlCommand.ExecuteScalar();
                 error = null;
+                if (value == null) return false;
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 value = -1;
                 error = ex;
@@ -53,6 +55,7 @@ namespace ChatApp
             finally
             {
                 Connection.Close();
+                
             }
             return true;
         }
@@ -108,14 +111,24 @@ namespace ChatApp
             bool success = ExecuteScalar(getSalt, out salt, out Exception error);
 
             //create hashed password
-            string hashedPassword = CreateMD5Hash(password + salt);
+            if(success)
+            {
+                string hashedPassword = CreateMD5Hash(password + salt);
 
-            SqlCommand command = new SqlCommand("usp_Login", Connection);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@Username", username);
-            command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                SqlCommand command = new SqlCommand("usp_Login", Connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
 
-            return ExecuteScalar(command, out UserID, out login_error);
+                return ExecuteScalar(command, out UserID, out login_error);
+            }
+            UserID = -1;
+            login_error = new Exception("salt not found");
+            return false;
+
+          
+
+
 
         }
 
