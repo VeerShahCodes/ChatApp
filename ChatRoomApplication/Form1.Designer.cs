@@ -37,18 +37,23 @@
             usernameBox = new TextBox();
             menuPanel = new Panel();
             loggedInPanel = new Panel();
+            joinRoomButton = new Button();
+            createRoomButton = new Button();
+            label2 = new Label();
             loggingInPanel = new Panel();
             logAccount = new Button();
             logPassword = new TextBox();
             logUsername = new TextBox();
-            label2 = new Label();
-            createRoomButton = new Button();
-            this.joinRoomButton = new Button();
-            this.viewRoomsButton = new Button();
+            createRoomPanel = new Panel();
+            postCreateRoom = new Button();
+            roomPassBox = new TextBox();
+            roomUsernameBox = new TextBox();
+            joinRoomPanel = new Panel();
             createAccountPanel.SuspendLayout();
             menuPanel.SuspendLayout();
             loggedInPanel.SuspendLayout();
             loggingInPanel.SuspendLayout();
+            createRoomPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -130,8 +135,8 @@
             // 
             // loggedInPanel
             // 
-            loggedInPanel.Controls.Add(this.viewRoomsButton);
-            loggedInPanel.Controls.Add(this.joinRoomButton);
+           // loggedInPanel.Controls.Add(this.viewRoomsButton);
+            loggedInPanel.Controls.Add(joinRoomButton);
             loggedInPanel.Controls.Add(createRoomButton);
             loggedInPanel.Controls.Add(label2);
             loggedInPanel.Dock = DockStyle.Fill;
@@ -139,6 +144,44 @@
             loggedInPanel.Name = "loggedInPanel";
             loggedInPanel.Size = new Size(800, 450);
             loggedInPanel.TabIndex = 3;
+            // 
+            // viewRoomsButton
+            // 
+            //this.viewRoomsButton.Location = new Point(353, 337);
+            //this.viewRoomsButton.Name = "viewRoomsButton";
+            //this.viewRoomsButton.Size = new Size(114, 23);
+            //this.viewRoomsButton.TabIndex = 3;
+            //this.viewRoomsButton.Text = "view ur rooms";
+            //this.viewRoomsButton.UseVisualStyleBackColor = true;
+            // 
+            // joinRoomButton
+            // 
+            joinRoomButton.Location = new Point(539, 241);
+            joinRoomButton.Name = "joinRoomButton";
+            joinRoomButton.Size = new Size(75, 23);
+            joinRoomButton.TabIndex = 2;
+            joinRoomButton.Text = "join room";
+            joinRoomButton.UseVisualStyleBackColor = true;
+            joinRoomButton.Click += joinRoomButton_Click;
+            // 
+            // createRoomButton
+            // 
+            createRoomButton.Location = new Point(146, 241);
+            createRoomButton.Name = "createRoomButton";
+            createRoomButton.Size = new Size(169, 23);
+            createRoomButton.TabIndex = 1;
+            createRoomButton.Text = "create room";
+            createRoomButton.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 20F);
+            label2.Location = new Point(247, 46);
+            label2.Name = "label2";
+            label2.Size = new Size(284, 37);
+            label2.TabIndex = 0;
+            label2.Text = "you are now logged in";
             // 
             // loggingInPanel
             // 
@@ -175,42 +218,47 @@
             logUsername.Size = new Size(100, 23);
             logUsername.TabIndex = 0;
             // 
-            // label2
+            // createRoomPanel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(247, 46);
-            label2.Name = "label2";
-            label2.Size = new Size(284, 37);
-            label2.TabIndex = 0;
-            label2.Text = "you are now logged in";
+            createRoomPanel.Controls.Add(postCreateRoom);
+            createRoomPanel.Controls.Add(roomPassBox);
+            createRoomPanel.Controls.Add(roomUsernameBox);
+            createRoomPanel.Dock = DockStyle.Fill;
+            createRoomPanel.Location = new Point(0, 0);
+            createRoomPanel.Name = "createRoomPanel";
+            createRoomPanel.Size = new Size(800, 450);
+            createRoomPanel.TabIndex = 4;
             // 
-            // createRoomButton
+            // postCreateRoom
             // 
-            createRoomButton.Location = new Point(146, 241);
-            createRoomButton.Name = "createRoomButton";
-            createRoomButton.Size = new Size(91, 23);
-            createRoomButton.TabIndex = 1;
-            createRoomButton.Text = "Create room";
-            createRoomButton.UseVisualStyleBackColor = true;
+            postCreateRoom.Location = new Point(367, 327);
+            postCreateRoom.Name = "postCreateRoom";
+            postCreateRoom.Size = new Size(75, 23);
+            postCreateRoom.TabIndex = 0;
+            postCreateRoom.Text = "create";
+            postCreateRoom.Click += postCreateRoom_Click;
             // 
-            // joinRoomButton
+            // roomPassBox
             // 
-            this.joinRoomButton.Location = new Point(539, 241);
-            this.joinRoomButton.Name = "joinRoomButton";
-            this.joinRoomButton.Size = new Size(75, 23);
-            this.joinRoomButton.TabIndex = 2;
-            this.joinRoomButton.Text = "Join room";
-            this.joinRoomButton.UseVisualStyleBackColor = true;
+            roomPassBox.Location = new Point(367, 219);
+            roomPassBox.Name = "roomPassBox";
+            roomPassBox.Size = new Size(100, 23);
+            roomPassBox.TabIndex = 1;
             // 
-            // viewRoomsButton
+            // roomUsernameBox
             // 
-            this.viewRoomsButton.Location = new Point(353, 337);
-            this.viewRoomsButton.Name = "viewRoomsButton";
-            this.viewRoomsButton.Size = new Size(116, 23);
-            this.viewRoomsButton.TabIndex = 3;
-            this.viewRoomsButton.Text = "View your rooms";
-            this.viewRoomsButton.UseVisualStyleBackColor = true;
+            roomUsernameBox.Location = new Point(367, 79);
+            roomUsernameBox.Name = "roomUsernameBox";
+            roomUsernameBox.Size = new Size(100, 23);
+            roomUsernameBox.TabIndex = 0;
+            // 
+            // joinRoomPanel
+            // 
+            joinRoomPanel.Dock = DockStyle.Fill;
+            joinRoomPanel.Location = new Point(0, 0);
+            joinRoomPanel.Name = "joinRoomPanel";
+            joinRoomPanel.Size = new Size(800, 450);
+            joinRoomPanel.TabIndex = 0;
             // 
             // Form1
             // 
@@ -221,6 +269,8 @@
             Controls.Add(createAccountPanel);
             Controls.Add(menuPanel);
             Controls.Add(loggingInPanel);
+            Controls.Add(joinRoomPanel);
+            Controls.Add(createRoomPanel);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -232,6 +282,8 @@
             loggedInPanel.PerformLayout();
             loggingInPanel.ResumeLayout(false);
             loggingInPanel.PerformLayout();
+            createRoomPanel.ResumeLayout(false);
+            createRoomPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -250,9 +302,13 @@
         private Button logAccount;
         private TextBox logPassword;
         private TextBox logUsername;
-        private Button button3;
-        private Button button2;
+        private Button joinRoomButton;
         private Button createRoomButton;
         private Label label2;
+        private Panel createRoomPanel;
+        private Panel joinRoomPanel;
+        private Button postCreateRoom;
+        private TextBox roomPassBox;
+        private TextBox roomUsernameBox;
     }
 }

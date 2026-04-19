@@ -17,6 +17,7 @@ namespace ChatRoomApplication
             createAccountPanel.Visible = false;
             loggedInPanel.Visible = false;
             loggingInPanel.Visible = false;
+            createRoomPanel.Visible = false;
         }
 
         private void createAccountButton_Click(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace ChatRoomApplication
             string password = logPassword.Text;
             object id;
             Exception error;
-            if(Sql.Login(username, password, out id, out error))
+            if (Sql.Login(username, password, out id, out error))
             {
                 loggingInPanel.Visible = false;
                 loggedInPanel.Visible = true;
@@ -62,6 +63,23 @@ namespace ChatRoomApplication
             {
 
             }
+        }
+
+        private void postCreateRoom_Click(object sender, EventArgs e)
+        {
+            string roomName = roomUsernameBox.Text;
+            string roomPass = roomPassBox.Text;
+            object roomId;
+            if (Sql.CreateRoom(roomName, roomPass, out roomId))
+            {
+                createRoomPanel.Visible = false;
+            }
+        }
+
+        private void joinRoomButton_Click(object sender, EventArgs e)
+        {
+            loggedInPanel.Visible = false;
+
         }
     }
 }
