@@ -190,12 +190,12 @@ namespace ChatApp
             return false;
         }
 
-        public bool CreateAccountRoom(int accountId, string roomName, string roomPassword)
+        public bool CreateAccountRoom(int accountId, int roomId)
         {
             string cmd = "usp_CreateAccountRoom";
             SqlCommand command = new SqlCommand(cmd, Connection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@RoomName", roomName);
+            command.Parameters.AddWithValue("@AccountID", accountId);
             command.Parameters.AddWithValue("@RoomID", roomId);
 
             int x = ExecuteNonQuery(command);
