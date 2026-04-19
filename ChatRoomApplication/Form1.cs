@@ -81,5 +81,11 @@ namespace ChatRoomApplication
             loggedInPanel.Visible = false;
 
         }
+
+        private void createRoomButton_Click(object sender, EventArgs e)
+        {
+            loggedInPanel.Visible = false;
+            createRoomPanel.Visible = true;
+        }
     }
 }

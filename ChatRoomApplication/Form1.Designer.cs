@@ -164,6 +164,7 @@
             createRoomButton.TabIndex = 1;
             createRoomButton.Text = "create room";
             createRoomButton.UseVisualStyleBackColor = true;
+            createRoomButton.Click += createRoomButton_Click;
             // 
             // label2
             // 
