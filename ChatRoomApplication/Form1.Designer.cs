@@ -49,6 +49,7 @@
             roomPassBox = new TextBox();
             roomUsernameBox = new TextBox();
             joinRoomPanel = new Panel();
+            viewRoomsButton = new Button();
             createAccountPanel.SuspendLayout();
             menuPanel.SuspendLayout();
             loggedInPanel.SuspendLayout();
@@ -135,7 +136,7 @@
             // 
             // loggedInPanel
             // 
-           // loggedInPanel.Controls.Add(this.viewRoomsButton);
+            loggedInPanel.Controls.Add(viewRoomsButton);
             loggedInPanel.Controls.Add(joinRoomButton);
             loggedInPanel.Controls.Add(createRoomButton);
             loggedInPanel.Controls.Add(label2);
@@ -144,15 +145,6 @@
             loggedInPanel.Name = "loggedInPanel";
             loggedInPanel.Size = new Size(800, 450);
             loggedInPanel.TabIndex = 3;
-            // 
-            // viewRoomsButton
-            // 
-            //this.viewRoomsButton.Location = new Point(353, 337);
-            //this.viewRoomsButton.Name = "viewRoomsButton";
-            //this.viewRoomsButton.Size = new Size(114, 23);
-            //this.viewRoomsButton.TabIndex = 3;
-            //this.viewRoomsButton.Text = "view ur rooms";
-            //this.viewRoomsButton.UseVisualStyleBackColor = true;
             // 
             // joinRoomButton
             // 
@@ -260,6 +252,15 @@
             joinRoomPanel.Size = new Size(800, 450);
             joinRoomPanel.TabIndex = 0;
             // 
+            // viewRoomsButton
+            // 
+            viewRoomsButton.Location = new Point(346, 335);
+            viewRoomsButton.Name = "viewRoomsButton";
+            viewRoomsButton.Size = new Size(75, 23);
+            viewRoomsButton.TabIndex = 3;
+            viewRoomsButton.Text = "view room";
+            viewRoomsButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -310,5 +311,6 @@
         private Button postCreateRoom;
         private TextBox roomPassBox;
         private TextBox roomUsernameBox;
+        private Button viewRoomsButton;
     }
 }
