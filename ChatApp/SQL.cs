@@ -216,5 +216,41 @@ namespace ChatApp
             if(x==-1) return false;
             return true;
         }
+
+        public List<int> GetRooms(int userId)
+        {
+            List<int> roomIds = new List<int>();
+            string cmd = "usp_GetRooms";
+            SqlCommand command = new SqlCommand(cmd, Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserID", userId);
+            DataTable data = DataReturn(command);
+            for(int i = 0; i < data.Rows.Count; i++)
+            {
+                roomIds.Add((int)data.Rows[i][0]);
+            }
+
+            return roomIds;
+
+        }
+
+        public List<string> GetRoomNames(List<int> roomIds)
+        {
+            string cmdText = "usp_GetRoomName";
+
+            List<string> rooms = new List<string>();
+            for(int i = 0; i < roomIds.Count; i++)
+            {
+                SqlCommand cmd = new SqlCommand(cmdText, Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RoomID", roomIds[i]);
+                object name;
+                Exception exception;
+                ExecuteScalar(cmd, out name, out exception);
+                rooms.Add((string)name);
+            }
+            return rooms;
+        }
+
     }
 }

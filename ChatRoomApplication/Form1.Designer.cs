@@ -37,6 +37,7 @@
             usernameBox = new TextBox();
             menuPanel = new Panel();
             loggedInPanel = new Panel();
+            viewRoomsButton = new Button();
             joinRoomButton = new Button();
             createRoomButton = new Button();
             label2 = new Label();
@@ -49,12 +50,16 @@
             roomPassBox = new TextBox();
             roomUsernameBox = new TextBox();
             joinRoomPanel = new Panel();
-            viewRoomsButton = new Button();
+            getJoinRoomButton = new Button();
+            joinRoomPasswordBox = new TextBox();
+            joinRoomUsernameBox = new TextBox();
+            viewRoomPanel = new Panel();
             createAccountPanel.SuspendLayout();
             menuPanel.SuspendLayout();
             loggedInPanel.SuspendLayout();
             loggingInPanel.SuspendLayout();
             createRoomPanel.SuspendLayout();
+            joinRoomPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -145,6 +150,16 @@
             loggedInPanel.Name = "loggedInPanel";
             loggedInPanel.Size = new Size(800, 450);
             loggedInPanel.TabIndex = 3;
+            // 
+            // viewRoomsButton
+            // 
+            viewRoomsButton.Location = new Point(346, 335);
+            viewRoomsButton.Name = "viewRoomsButton";
+            viewRoomsButton.Size = new Size(75, 23);
+            viewRoomsButton.TabIndex = 3;
+            viewRoomsButton.Text = "view room";
+            viewRoomsButton.UseVisualStyleBackColor = true;
+            viewRoomsButton.Click += viewRoomsButton_Click;
             // 
             // joinRoomButton
             // 
@@ -247,20 +262,46 @@
             // 
             // joinRoomPanel
             // 
+            joinRoomPanel.Controls.Add(getJoinRoomButton);
+            joinRoomPanel.Controls.Add(joinRoomPasswordBox);
+            joinRoomPanel.Controls.Add(joinRoomUsernameBox);
             joinRoomPanel.Dock = DockStyle.Fill;
             joinRoomPanel.Location = new Point(0, 0);
             joinRoomPanel.Name = "joinRoomPanel";
             joinRoomPanel.Size = new Size(800, 450);
             joinRoomPanel.TabIndex = 0;
             // 
-            // viewRoomsButton
+            // getJoinRoomButton
             // 
-            viewRoomsButton.Location = new Point(346, 335);
-            viewRoomsButton.Name = "viewRoomsButton";
-            viewRoomsButton.Size = new Size(75, 23);
-            viewRoomsButton.TabIndex = 3;
-            viewRoomsButton.Text = "view room";
-            viewRoomsButton.UseVisualStyleBackColor = true;
+            getJoinRoomButton.Location = new Point(359, 335);
+            getJoinRoomButton.Name = "getJoinRoomButton";
+            getJoinRoomButton.Size = new Size(75, 23);
+            getJoinRoomButton.TabIndex = 2;
+            getJoinRoomButton.Text = "join";
+            getJoinRoomButton.UseVisualStyleBackColor = true;
+            getJoinRoomButton.Click += getJoinRoomButton_Click;
+            // 
+            // joinRoomPasswordBox
+            // 
+            joinRoomPasswordBox.Location = new Point(350, 214);
+            joinRoomPasswordBox.Name = "joinRoomPasswordBox";
+            joinRoomPasswordBox.Size = new Size(100, 23);
+            joinRoomPasswordBox.TabIndex = 1;
+            // 
+            // joinRoomUsernameBox
+            // 
+            joinRoomUsernameBox.Location = new Point(351, 106);
+            joinRoomUsernameBox.Name = "joinRoomUsernameBox";
+            joinRoomUsernameBox.Size = new Size(100, 23);
+            joinRoomUsernameBox.TabIndex = 0;
+            // 
+            // viewRoomPanel
+            // 
+            viewRoomPanel.Dock = DockStyle.Fill;
+            viewRoomPanel.Location = new Point(0, 0);
+            viewRoomPanel.Name = "viewRoomPanel";
+            viewRoomPanel.Size = new Size(800, 450);
+            viewRoomPanel.TabIndex = 4;
             // 
             // Form1
             // 
@@ -273,6 +314,7 @@
             Controls.Add(loggingInPanel);
             Controls.Add(joinRoomPanel);
             Controls.Add(createRoomPanel);
+            Controls.Add(viewRoomPanel);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -286,6 +328,8 @@
             loggingInPanel.PerformLayout();
             createRoomPanel.ResumeLayout(false);
             createRoomPanel.PerformLayout();
+            joinRoomPanel.ResumeLayout(false);
+            joinRoomPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -313,5 +357,9 @@
         private TextBox roomPassBox;
         private TextBox roomUsernameBox;
         private Button viewRoomsButton;
+        private Button getJoinRoomButton;
+        private TextBox joinRoomPasswordBox;
+        private TextBox joinRoomUsernameBox;
+        private Panel viewRoomPanel;
     }
 }
