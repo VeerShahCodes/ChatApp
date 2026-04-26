@@ -140,7 +140,7 @@ namespace ChatRoomApplication
         private void room_Click(object sender, EventArgs e)
         {
             viewRoomPanel.Visible = false;
-          
+            
         }
     }
 }
