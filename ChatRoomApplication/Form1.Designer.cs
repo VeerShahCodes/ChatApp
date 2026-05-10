@@ -54,12 +54,18 @@
             joinRoomPasswordBox = new TextBox();
             joinRoomUsernameBox = new TextBox();
             viewRoomPanel = new Panel();
+            roomPanel = new Panel();
+            messagePanel = new Panel();
+            sendButton = new Button();
+            messageBox = new TextBox();
+            roomNameLabel = new Label();
             createAccountPanel.SuspendLayout();
             menuPanel.SuspendLayout();
             loggedInPanel.SuspendLayout();
             loggingInPanel.SuspendLayout();
             createRoomPanel.SuspendLayout();
             joinRoomPanel.SuspendLayout();
+            roomPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -303,18 +309,64 @@
             viewRoomPanel.Size = new Size(800, 450);
             viewRoomPanel.TabIndex = 4;
             // 
+            // roomPanel
+            // 
+            roomPanel.Controls.Add(messagePanel);
+            roomPanel.Controls.Add(sendButton);
+            roomPanel.Controls.Add(messageBox);
+            roomPanel.Controls.Add(roomNameLabel);
+            roomPanel.Dock = DockStyle.Fill;
+            roomPanel.Location = new Point(0, 0);
+            roomPanel.Name = "roomPanel";
+            roomPanel.Size = new Size(800, 450);
+            roomPanel.TabIndex = 0;
+            // 
+            // messagePanel
+            // 
+            messagePanel.Location = new Point(271, 107);
+            messagePanel.Name = "messagePanel";
+            messagePanel.Size = new Size(373, 257);
+            messagePanel.TabIndex = 7;
+            // 
+            // sendButton
+            // 
+            sendButton.Location = new Point(569, 417);
+            sendButton.Name = "sendButton";
+            sendButton.Size = new Size(75, 23);
+            sendButton.TabIndex = 6;
+            sendButton.Text = "send";
+            sendButton.UseVisualStyleBackColor = true;
+            // 
+            // messageBox
+            // 
+            messageBox.Location = new Point(274, 417);
+            messageBox.Name = "messageBox";
+            messageBox.Size = new Size(275, 23);
+            messageBox.TabIndex = 5;
+            // 
+            // roomNameLabel
+            // 
+            roomNameLabel.AutoSize = true;
+            roomNameLabel.Font = new Font("Segoe UI", 40F);
+            roomNameLabel.Location = new Point(156, 11);
+            roomNameLabel.Name = "roomNameLabel";
+            roomNameLabel.Size = new Size(315, 72);
+            roomNameLabel.TabIndex = 4;
+            roomNameLabel.Text = "room_name";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(roomPanel);
+            Controls.Add(viewRoomPanel);
             Controls.Add(loggedInPanel);
             Controls.Add(createAccountPanel);
             Controls.Add(menuPanel);
             Controls.Add(loggingInPanel);
             Controls.Add(joinRoomPanel);
             Controls.Add(createRoomPanel);
-            Controls.Add(viewRoomPanel);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -330,6 +382,8 @@
             createRoomPanel.PerformLayout();
             joinRoomPanel.ResumeLayout(false);
             joinRoomPanel.PerformLayout();
+            roomPanel.ResumeLayout(false);
+            roomPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -361,5 +415,10 @@
         private TextBox joinRoomPasswordBox;
         private TextBox joinRoomUsernameBox;
         private Panel viewRoomPanel;
+        private Panel roomPanel;
+        private Panel messagePanel;
+        private Button sendButton;
+        private TextBox messageBox;
+        private Label roomNameLabel;
     }
 }

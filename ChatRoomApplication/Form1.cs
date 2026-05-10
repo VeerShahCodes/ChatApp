@@ -7,6 +7,8 @@ namespace ChatRoomApplication
     {
         SQL Sql;
         int userId;
+        int roomId;
+        string roomName;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace ChatRoomApplication
             createRoomPanel.Visible = false;
             joinRoomPanel.Visible = false;
             viewRoomPanel.Visible = false;
+            roomPanel.Visible = false;
         }
 
         private void createAccountButton_Click(object sender, EventArgs e)
@@ -140,7 +143,9 @@ namespace ChatRoomApplication
         private void room_Click(object sender, EventArgs e)
         {
             viewRoomPanel.Visible = false;
-            
+            string roomName = ((Label)sender).Text;
+            roomNameLabel.Text = roomName;
+            roomPanel.Visible = true;
         }
     }
 }
