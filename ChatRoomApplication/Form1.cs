@@ -1,4 +1,5 @@
 using ChatApp;
+using ChatApp.Controllers;
 using Microsoft.VisualBasic.ApplicationServices;
 
 namespace ChatRoomApplication
@@ -43,10 +44,7 @@ namespace ChatRoomApplication
                 loggedInPanel.Visible = true;
                 createAccountPanel.Visible = false;
             }
-            else
-            {
 
-            }
             userId = (int)id;
         }
 

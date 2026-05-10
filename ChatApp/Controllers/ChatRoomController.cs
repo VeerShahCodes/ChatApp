@@ -70,5 +70,17 @@ namespace ChatApp.Controllers
 
         }
 
+        [HttpPost("CreateText")]
+        public ActionResult<Text> CreateText(int userId, int roomId, string content)
+        {
+            object textId;
+            DateTime dt;
+            if (Sql.SendText(userId, roomId, content, out textId, out dt))
+            {
+                return Ok(new Text((int)textId, content, userId, roomId, dt));
+            }
+            return BadRequest();
+        }
+
     }
 }

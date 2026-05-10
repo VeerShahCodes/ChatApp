@@ -1,10 +1,8 @@
 ﻿using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Data.SqlClient;
-
 namespace ChatApp
 {
     public class SQL
@@ -92,6 +90,23 @@ namespace ChatApp
 
             if (x != -1) return true;
             return false;
+        }
+        public bool SendText(int userId, int roomId, string text, out object id, out DateTime dt) 
+        {
+            dt = DateTime.Now;
+            string cmd = "usp_CreateText";
+            SqlCommand command = new SqlCommand(cmd, Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserID", userId);
+            command.Parameters.AddWithValue("@RoomID", roomId);
+            command.Parameters.AddWithValue("@Content", text);
+            command.Parameters.AddWithValue("@Datetime", dt);
+            int x = ExecuteNonQuery(command);
+
+            GetTextID(roomId, userId, dt, text, out id);
+            
+            if (x == -1) return false;
+            return true;
         }
         public bool GetID(string username, out object UserID)
         {
@@ -189,6 +204,18 @@ namespace ChatApp
             command.Parameters.AddWithValue("@RoomName", roomName);
 
             return ExecuteScalar(command, out id, out Exception error);
+        }
+        public bool GetTextID(int roomID, int userID, DateTime dt, string content, out object id)
+        {
+            SqlCommand cmd = new SqlCommand("usp_GetTextId", Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@RoomID", roomID);
+            cmd.Parameters.AddWithValue("@Datetime", dt);
+            cmd.Parameters.AddWithValue("@Content", content);
+            cmd.Parameters.AddWithValue("@UserID", userID);
+
+            return ExecuteScalar(cmd, out id, out Exception error);
+
         }
 
         public bool JoinRoom(string roomName, string roomPassword, out object roomID)
