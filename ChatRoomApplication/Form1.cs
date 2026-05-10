@@ -89,6 +89,7 @@ namespace ChatRoomApplication
                 }
             }
 
+            //figure what this means and how to use it to make the api calls instead of using the sql class directly
             using (WebClient client = new WebClient())
             {
                 try
