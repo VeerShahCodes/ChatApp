@@ -1,6 +1,7 @@
 using ChatApp;
 using ChatApp.Controllers;
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Net;
 
 namespace ChatRoomApplication
 {
@@ -82,6 +83,25 @@ namespace ChatRoomApplication
             {
                 createRoomPanel.Visible = false;
                 loggedInPanel.Visible = true;
+                if (Sql.JoinRoom(roomName, roomPass))
+                {
+                    Sql.CreateAccountRoom(userId, (int)roomId);
+                }
+            }
+
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    string jsonBody = $"\"{inputMessage}\"";
+                    string result = client.UploadString("http://localhost:5043/Example/PostMessage", inputMessage);
+                    Console.WriteLine($"Response from API: {result}");
+                }
+                catch
+                {
+
+                }
             }
         }
 
@@ -116,7 +136,7 @@ namespace ChatRoomApplication
             }
         }
 
-        
+
         private void viewRoomsButton_Click(object sender, EventArgs e)
         {
             loggedInPanel.Visible = false;
@@ -124,9 +144,13 @@ namespace ChatRoomApplication
             List<string> roomNames = Sql.GetRoomNames(roomIds);
             viewRoomPanel.Visible = true;
             int availableHeight = Size.Height;
+            if (roomIds.Count == 0)
+            {
+                return;
+            }
             int labelHeight = availableHeight / roomIds.Count;
 
-            for(int i = 0; i < availableHeight / labelHeight; i++)
+            for (int i = 0; i < availableHeight / labelHeight; i++)
             {
                 Label label = new Label();
                 viewRoomPanel.Controls.Add(label);
@@ -144,6 +168,88 @@ namespace ChatRoomApplication
             string roomName = ((Label)sender).Text;
             roomNameLabel.Text = roomName;
             roomPanel.Visible = true;
+            object roomId;
+            Sql.GetRoomID(roomName, out roomId);
+            this.roomId = (int)roomId;
+            messageUpdateTimer.Enabled = true;
+            messageUpdateTimer.Start();
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            string content = messageBox.Text;
+
+            if (Sql.SendText(userId, roomId, content, out object textId, out DateTime dt))
+            {
+                object username;
+                Sql.GetUsername(userId, out username);
+                Label label = new Label();
+                label.Text = $"{(string)username}: {content}";
+                label.AutoSize = true;
+                label.Font = new Font("Segoe UI", 12);
+                label.Location = new Point(0, messageBox.Bottom);
+                messagePanel.Controls.Add(label);
+            }
+        }
+        private void messageUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            List<Text> messages = new List<Text>();
+            messages = Sql.GetTextInformation(roomId);
+            messagePanel.Controls.Clear();
+            for (int i = 0; i < messages.Count; i++)
+            {
+                object username;
+                Sql.GetUsername(messages[i].AccountID, out username);
+                Label label = new Label();
+                messagePanel.Controls.Add(label);
+
+                label.Text = $"{(string)username}: {messages[i].Content}";
+                label.AutoSize = true;
+                label.Font = new Font("Segoe UI", 12);
+                label.Location = new Point(0, messagePanel.Height - (50 + i * 50));
+            }
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            roomPanel.Visible = false;
+            loggedInPanel.Visible = true;
+        }
+
+        private void backButton2_Click(object sender, EventArgs e)
+        {
+            viewRoomPanel.Visible = false;
+            loggedInPanel.Visible = true;
+        }
+
+        private void logoutButton_Click(object sender, EventArgs e)
+        {
+            loggedInPanel.Visible = false;
+            menuPanel.Visible = true;
+        }
+
+        private void backButton3_Click(object sender, EventArgs e)
+        {
+            joinRoomPanel.Visible = false;
+            loggedInPanel.Visible = true;
+        }
+
+        private void backButton4_Click(object sender, EventArgs e)
+        {
+            createRoomPanel.Visible = false;
+            loggedInPanel.Visible = true;
+        }
+
+        private void backButton5_Click(object sender, EventArgs e)
+        {
+            createAccountPanel.Visible = false;
+            menuPanel.Visible = true;
+        }
+
+        private void backButton6_Click(object sender, EventArgs e)
+        {
+            loggingInPanel.Visible = false;
+            menuPanel.Visible = true;
         }
     }
 }

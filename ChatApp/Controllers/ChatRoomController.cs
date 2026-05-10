@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Primitives;
 using System.Data;
 
-namespace ChatApp.Controllers
+namespace ChatApp
 {
     [ApiController]
     [Route("[controller]")]
@@ -81,6 +81,8 @@ namespace ChatApp.Controllers
             }
             return BadRequest();
         }
+
+
 
     }
 }

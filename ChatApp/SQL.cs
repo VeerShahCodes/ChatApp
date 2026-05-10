@@ -196,6 +196,15 @@ namespace ChatApp
             if (x == -1) return false;
             return true;
         }
+        public bool GetUsername(int userID, out object username)
+        {
+            SqlCommand command = new SqlCommand("usp_GetUsername", Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserID", userID);
+            return ExecuteScalar(command, out username, out Exception error);
+        }
+
+         
 
         public bool GetRoomID(string roomName, out object id)
         {
@@ -260,6 +269,41 @@ namespace ChatApp
 
             return roomIds;
 
+        }
+
+        private List<int> GetTextIds(int roomId)
+        {
+            List<int> texts = new List<int>();
+            SqlCommand cmd = new SqlCommand("usp_GetTextsByTime", Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@RoomID", roomId);
+            DataTable data = DataReturn(cmd);
+            for(int i = 0; i < data.Rows.Count; i++)
+            {
+                if (i >= 10) break;
+                texts.Add((int)data.Rows[i][0]);
+            }
+            return texts;
+        }
+        public List<Text> GetTextInformation(int roomId)
+        {
+            List<Text> texts = new List<Text>();
+            List<int> textIds = GetTextIds(roomId);
+            for(int i = 0; i < textIds.Count; i++)
+            {
+                SqlCommand cmd = new SqlCommand("usp_GetTextInformation", Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TextID", textIds[i]);
+                DataTable data = DataReturn(cmd);
+                Text text = new Text();
+                text.TextID = textIds[i];
+                text.RoomID = roomId;
+                text.Content = (string)data.Rows[0][0];
+                text.AccountID = (int)data.Rows[0][1];
+                text.dateTime = (DateTime)data.Rows[0][2];
+                texts.Add(text);
+            }
+            return texts;
         }
 
         public List<string> GetRoomNames(List<int> roomIds)

@@ -16,5 +16,6 @@
             RoomID = roomId;
             this.dateTime = dateTime;
         }
+        public Text() { }
     }
 }
