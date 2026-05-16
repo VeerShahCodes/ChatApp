@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Primitives;
 using System.Data;
+using System.Net;
 
 namespace ChatApp
 {
@@ -13,7 +14,7 @@ namespace ChatApp
         //string connection = "Data Source=(localdb)\\ProjectModels;Initial Catalog=ChatDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
         string connection = "Data Source=(localdb)\\ProjectModels;Initial Catalog=ChatDB;Integrated Security=True;Pooling=False;Connect Timeout=30";
         SQL Sql = new SQL("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"\\\\GMRDC1\\Folder Redirection\\Veer.Shah\\Documents\\Visual Studio 2022\\Projects\\SQLAPIs\\ChatApp\\DBLibrary\\ChatRoomDB.mdf\";Integrated Security=True");
-        [HttpPost("CreateAccount")]      
+        [HttpPost("CreateAccount")]
 
 
         public ActionResult<User> CreateAccount(string username, string password)
@@ -32,11 +33,12 @@ namespace ChatApp
         {
             object id;
             Exception err;
-            if(Sql.Login(username, password, out id, out err))
+            if (Sql.Login(username, password, out id, out err))
             {
+
                 return Ok(new User(username, (int)id));
             }
-            
+
 
             return BadRequest();
         }
@@ -45,8 +47,8 @@ namespace ChatApp
         public ActionResult<Room> CreateRoom(string roomName, string roomPassword)
         {
             object id;
-            
-            if(Sql.CreateRoom(roomName, roomPassword, out id))
+
+            if (Sql.CreateRoom(roomName, roomPassword, out id))
             {
                 return Ok(new Room(roomName, (int)id));
             }
@@ -59,9 +61,9 @@ namespace ChatApp
             object userId;
             Sql.GetID(username, out userId);
             object roomId;
-            if(Sql.JoinRoom(roomName, roomPassword, out roomId))
+            if (Sql.JoinRoom(roomName, roomPassword, out roomId))
             {
-                if(Sql.CreateAccountRoom((int)userId, (int)roomId))
+                if (Sql.CreateAccountRoom((int)userId, (int)roomId))
                 {
                     return Ok(new AccountRoom((int)userId, (int)roomId));
                 }
@@ -82,7 +84,31 @@ namespace ChatApp
             return BadRequest();
         }
 
+        [HttpGet("GetRooms")]
+        public ActionResult<List<Room>> GetRooms(int userId)
+        {
+            List<Room> rooms = new List<Room>();
 
+            List<int> roomIds = Sql.GetRooms(userId);
+            List<string> roomNames = Sql.GetRoomNames(roomIds);
 
+            for (int i = 0; i < roomIds.Count; i++)
+            {
+                rooms.Add(new Room(roomNames[i], roomIds[i]));
+            }
+
+            return Ok(rooms);
+        }
+
+        [HttpGet("GetTexts")]
+        public ActionResult<List<Text>> GetTexts(int roomId)
+        {
+            List<Text> texts = Sql.GetTextInformation(roomId);
+            return Ok(texts);
+        }
+
+        
     }
 }
+
+

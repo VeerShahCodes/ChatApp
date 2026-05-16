@@ -8,6 +8,7 @@ namespace ChatRoomApplication
     public partial class Form1 : Form
     {
         SQL Sql;
+        API api = new API();
         int userId;
         int roomId;
         string roomName;
@@ -57,12 +58,28 @@ namespace ChatRoomApplication
 
         private void logAccount_Click(object sender, EventArgs e)
         {
+            
             string username = logUsername.Text;
             string password = logPassword.Text;
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    string jsonBody = $"\"{username},{password}\"";
+                    string result = client.UploadString("http://localhost:7141/ChatRoom/Login", username, password);
+                    //Console.WriteLine($"Response from API: {result}");
+                }
+                catch (WebException exception)
+                {
+                    Console.WriteLine($"Error: {exception.Message}");
+                }
+            }
             object id;
             Exception error;
             if (Sql.Login(username, password, out id, out error))
             {
+                api.Login(username, password);
                 loggingInPanel.Visible = false;
                 loggedInPanel.Visible = true;
             }
@@ -89,21 +106,6 @@ namespace ChatRoomApplication
                 }
             }
 
-            //figure what this means and how to use it to make the api calls instead of using the sql class directly
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                    string jsonBody = $"\"{inputMessage}\"";
-                    string result = client.UploadString("http://localhost:5043/Example/PostMessage", inputMessage);
-                    Console.WriteLine($"Response from API: {result}");
-                }
-                catch
-                {
-
-                }
-            }
         }
 
         private void joinRoomButton_Click(object sender, EventArgs e)
